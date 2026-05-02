@@ -8,6 +8,8 @@ let survivalTime = 0; // 0 to 180s
 const SURVIVAL_GOAL = 180;
 let isPaused = false;
 let checkpointCount = 0;
+let stageAttempts = 0;
+let stageCorrect = 0;
 
 // Player states
 let playerA = { name: "Agent A", score: 0, currentQuestion: null };
@@ -89,6 +91,8 @@ function resetGame() {
     timer = 20.0;
     survivalTime = 0;
     checkpointCount = 0;
+    stageAttempts = 0;
+    stageCorrect = 0;
     isPaused = false;
     updateProgressUI();
     
@@ -177,13 +181,24 @@ function updateProgressUI() {
 
 function triggerCheckpoint() {
     isPaused = true;
+    
+    const accuracy = stageAttempts === 0 ? 100 : Math.round((stageCorrect / stageAttempts) * 100);
+    document.getElementById('checkpoint-accuracy').innerText = `Accuracy: ${accuracy}%`;
+    
+    document.getElementById('checkpoint-bonus').innerText = `Time Bonus: +12s`;
+    timer += 12;
+    bombTimerEl.innerText = timer.toFixed(1);
+    
+    stageAttempts = 0;
+    stageCorrect = 0;
+
     checkpointMsg.classList.remove('hidden');
     checkpointCount++;
     
     setTimeout(() => {
         checkpointMsg.classList.add('hidden');
         isPaused = false;
-    }, 5000); // Pause for 5 seconds
+    }, 15000); // Pause for 15 seconds
 }
 
 function endGame(win) {
@@ -286,6 +301,8 @@ function handleBubbleClick(e) {
 }
 
 function handleCorrect(playerStr, area) {
+    stageAttempts++;
+    stageCorrect++;
     timer += 3; // Add 3 seconds
     
     // Show +3s animation
@@ -299,6 +316,7 @@ function handleCorrect(playerStr, area) {
 }
 
 function handleWrong(playerStr, area) {
+    stageAttempts++;
     // Shake and Freeze
     area.classList.add('shake-effect', 'freeze-active');
     
