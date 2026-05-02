@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Time Bomb Math</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- 1. Intro Screen -->
+    <div id="intro-screen" class="screen active">
+        <h2 style="color: white; margin-bottom: 10px;">Click the video to play</h2>
+        <video id="intro-video" src="video.mp4" controls playsinline
+            style="max-width: 80%; max-height: 60vh; border-radius: 20px; border: 4px solid #e94560; margin-bottom: 20px;"></video>
+        <button id="skip-intro-btn">Skip Video</button>
+    </div>
+
+    <!-- 2. Setup Screen -->
+    <div id="setup-screen" class="screen">
+        <!-- Space Background Elements -->
+        <div class="stars-container">
+            <div class="stars-layer-1"></div>
+            <div class="stars-layer-2"></div>
+            <div class="stars-layer-3"></div>
+        </div>
+        <img src="planet1.png" class="planet planet-1" alt="Planet 1">
+        <img src="planet2.png" class="planet planet-2" alt="Planet 2">
+
+        <div class="setup-container">
+            <h1>Agent Setup</h1>
+            <div class="agent-inputs">
+                <div class="agent-input-box">
+                    <img src="Agent_A.png" alt="Robot A" class="avatar-preview"
+                        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><circle cx=\'50\' cy=\'50\' r=\'40\' fill=\'#3498db\'/></svg>'">
+                    <label>Agent A Name:</label>
+                    <input type="text" id="agent-a-name" value="Player 1" maxlength="10">
+                </div>
+                <div class="agent-input-box">
+                    <img src="Agent_B.png" alt="Robot B" class="avatar-preview"
+                        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><circle cx=\'50\' cy=\'50\' r=\'40\' fill=\'#e74c3c\'/></svg>'">
+                    <label>Agent B Name:</label>
+                    <input type="text" id="agent-b-name" value="Player 2" maxlength="10">
+                </div>
+            </div>
+            <h2 id="ready-prompt">Agent A and Agent B, are you ready?</h2>
+            <button id="ready-btn">READY</button>
+        </div>
+    </div>
+
+    <!-- 3. Game Screen -->
+    <div id="game-screen" class="screen">
+        <div id="game-container">
+            <!-- Player A Area -->
+            <div id="player-a-area" class="player-area">
+                <div class="player-header">
+                    <img src="Agent_A.png" alt="A" class="mini-avatar"
+                        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'30\' height=\'30\'><circle cx=\'15\' cy=\'15\' r=\'15\' fill=\'#3498db\'/></svg>'">
+                    <h2 id="name-display-a">Agent A</h2>
+                </div>
+                <div id="question-a" class="question-text">Waiting...</div>
+                <div id="bubbles-a" class="bubbles-container"></div>
+                <div id="overlay-a" class="freeze-overlay">FREEZE! (2s)</div>
+                <div id="plus3-a" class="plus-time">+3s</div>
+            </div>
+
+            <!-- Bomb/Center Area -->
+            <div id="center-area" class="center-area">
+                <div class="bomb-container">
+                    <div class="bomb-visual">💣</div>
+                    <div id="bomb-timer">20.0</div>
+                    <div class="timer-label">SECONDS LEFT</div>
+                </div>
+                <div id="checkpoint-message" class="checkpoint-msg hidden">
+                    <p>不错嘛，人类。下一阶段开始！</p>
+                    <p>Not bad, humans. Next stage begins!</p>
+                </div>
+            </div>
+
+            <!-- Player B Area -->
+            <div id="player-b-area" class="player-area">
+                <div class="player-header">
+                    <h2 id="name-display-b">Agent B</h2>
+                    <img src="Agent_B.png" alt="B" class="mini-avatar"
+                        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'30\' height=\'30\'><circle cx=\'15\' cy=\'15\' r=\'15\' fill=\'#e74c3c\'/></svg>'">
+                </div>
+                <div id="question-b" class="question-text">Waiting...</div>
+                <div id="bubbles-b" class="bubbles-container"></div>
+                <div id="overlay-b" class="freeze-overlay">FREEZE! (2s)</div>
+                <div id="plus3-b" class="plus-time">+3s</div>
+            </div>
+        </div>
+
+        <!-- Progress Bar (Bottom) -->
+        <div id="progress-container">
+            <div id="progress-bar-fill"></div>
+            <img src="Agent_A.png" id="progress-avatar-a" class="progress-avatar" alt="A"
+                onerror="this.style.display='none'">
+            <img src="Agent_B.png" id="progress-avatar-b" class="progress-avatar" alt="B"
+                onerror="this.style.display='none'">
+            <div class="progress-labels">
+                <span>0</span>
+                <span>Goal: 3 Mins</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Game Over Screen -->
+    <div id="gameover-screen" class="screen">
+        <div class="gameover-content">
+            <h1 id="gameover-title">TIME'S UP. BOOM.</h1>
+            <video id="bomb-video" src="bomb.mp4" playsinline
+                style="max-width: 100%; max-height: 40vh; border-radius: 20px; border: 4px solid #e74c3c; margin: 20px auto; display: block;"></video>
+            <h2 id="survival-time-text">You survived for 0 seconds!</h2>
+            <p id="gameover-subtitle">Try again next time!</p>
+            <button id="restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <!-- 5. Victory Screen -->
+    <div id="victory-screen" class="screen">
+        <div class="victory-content">
+            <h1>MISSION ACCOMPLISHED!</h1>
+            <video id="won-video" src="won.mp4" playsinline
+                style="max-width: 100%; max-height: 40vh; border-radius: 20px; border: 4px solid #2ecc71; margin: 20px auto; display: block;"></video>
+            <h2>You survived 3 minutes!</h2>
+            <button id="victory-restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Audio Placeholders -->
+    <audio id="pop-sound" src="https://freesound.org/data/previews/244/244655_4445690-lq.mp3"></audio>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
