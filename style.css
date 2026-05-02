@@ -268,13 +268,40 @@ button:active {
 
 .checkpoint-msg {
     position: absolute;
-    background: rgba(233, 69, 96, 0.9);
-    padding: 20px;
-    border-radius: 10px;
+    background: rgba(233, 69, 96, 0.95);
+    padding: 30px;
+    border-radius: 15px;
     text-align: center;
     z-index: 10;
     font-size: 1.5rem;
-    border: 3px solid white;
+    border: 4px solid white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.checkpoint-msg h2 {
+    margin-bottom: 15px;
+    font-size: 2.2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+#checkpoint-accuracy {
+    font-size: 1.8rem;
+    color: #f1c40f;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#checkpoint-bonus {
+    font-size: 1.8rem;
+    color: #2ecc71;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.checkpoint-ready {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    opacity: 0.9;
 }
 
 .hidden {
